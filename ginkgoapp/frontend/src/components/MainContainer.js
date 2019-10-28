@@ -2,26 +2,16 @@ import React, {Component} from 'react';
 import SearchBar from './SearchBar';
 import Button from './Button';
 import AlignmentList from './AlignmentList';
+import * as fetch from "node-fetch";
 
 class MainContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			seq: "",
-			alignments: []
+			alignments: ["dna seq"]
 		}
 	}
-
-	componentDidMount() {
-		this.loadAlignments();
-	}
-
-	loadAlignments = () => {
-		let connection = "grab all processed submissions";
-		let alignmentList = ["DNA SEQ"];
-		this.setState({seq: this.state.seq, alignments: alignmentList});
-		console.log("getting query results");
-	};
 
 	updateSeq = (event) => {
 		let sequence = event.target.value;
@@ -29,9 +19,16 @@ class MainContainer extends Component {
 	};
 
 	submit = (event) => {
-		let connection = "submit an alignment request";
+		let connection = "http://localhost:8000/api/alignments/";
+		let payload = {"sequence": this.state.seq}
+		fetch(connection, {
+			method: 'post',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(payload)
+		}).catch((error) => alert("error"));
 		this.setState({seq: "", alignments: this.state.alignments});
-		console.log("submitting query");
 	};
 
 	render() {

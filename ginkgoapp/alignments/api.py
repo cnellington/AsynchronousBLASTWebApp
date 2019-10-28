@@ -4,7 +4,7 @@ from .serializers import AlignmentSerializer
 
 # Alignment Viewset
 class AlignmentViewSet(viewsets.ModelViewSet):
-    queryset = Alignment.objects.all()
+    queryset = Alignment.objects.all().order_by('-modified')
     permission_classes = [
         permissions.AllowAny
     ]
