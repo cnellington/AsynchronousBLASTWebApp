@@ -1,10 +1,12 @@
 from django.db import models
 
+from . import services
+
 
 # Queryable protein
 class Protein(models.Model):
-    ref = models.CharField(max_length=10)
-    name = models.CharField(max_length=128)
+    reference = models.CharField(max_length=16)
+    description = models.CharField(max_length=128)
     sequence = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -14,12 +16,21 @@ class Protein(models.Model):
 class Alignment(models.Model):
     # user = ??  TODO: store IP address or session
     sequence = models.TextField()
+    result_name = models.CharField(max_length=16, blank=True)
+    result_start = models.IntegerField(blank=True)
     status = models.CharField(choices=(("Processed", "Processed"), ("New", "New")), default="New", max_length=10)
-    alignment = models.ForeignKey(Protein, on_delete=models.CASCADE, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         # TODO: Run async alignment on proteins, mark processed
-        self.alignment = Protein.objects.all()[0] # placeholder
+        results = services.get_alignment(self.sequence)
+        if results:
+            prot = results[0]
+            self.result_name = prot.description
+            self.result_start = prot.sequence.lower().find(self.sequence.lower())
+        else:
+            self.result_name = "No Match"
+            self.result_start = -1
+        self.status = "Processed"
         super().save(*args, **kwargs)
