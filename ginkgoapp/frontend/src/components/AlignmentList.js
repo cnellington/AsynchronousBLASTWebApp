@@ -37,14 +37,14 @@ class AlignmentList extends Component {
 	};
 
 	updateAlignments() {
-		let newAlignments = []
+		let newAlignments = [];
 		for(let i = 0; i < this.state.alignments.length; i++) {
 			let result = this.state.alignments[i];
 			newAlignments.push(
-				<div style={{border: "solid 1px red"}} key={i}>
-					<p>{result["sequence"]}</p>
-					<p>{result["status"]}</p>
-					<p>{result["created"]}</p>
+				<div key={i}>
+					<br></br>
+					<p>query: {result["sequence"]}</p>
+					<p>found in <strong>{result["result_name"]}</strong> at bp {result["result_start"]} </p>
 				</div>
 			);
 		}
