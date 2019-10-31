@@ -33,8 +33,18 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',
 ]
 
-# Application definition
+# Django-Q Config
+Q_CLUSTER = {
+    'name': 'DjangoORM',
+    'timeout': 60,
+    'compress': True,
+    'save_limit': 25,
+    'queue_limit': 50,
+    'label': 'Django Q',
+    'orm': 'default',
+}
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_q',
     'rest_framework',
     'corsheaders',
     'alignments',
