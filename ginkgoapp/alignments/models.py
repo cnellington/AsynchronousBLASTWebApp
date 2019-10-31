@@ -2,13 +2,16 @@ from django.db import models
 from django_q.tasks import async_task
 from django.core.validators import FileExtensionValidator
 
+from ginkgoapp.settings import STATIC_ROOT
+
 
 status_choices = (("New", "New"), ("Processed", "Processed"))
+upload_dir = "alignments/static/files/"
 
 
 # Queryable protein
 class Protein(models.Model):
-    file = models.FileField(upload_to='static/files/protein_files',
+    file = models.FileField(upload_to=f"{upload_dir}protein_files/",
                             validators=[FileExtensionValidator(allowed_extensions=['fasta'])])
     status = models.CharField(choices=status_choices, default=status_choices[0][0], max_length=10)
     name = models.CharField(max_length=16, blank=True, null=True)
