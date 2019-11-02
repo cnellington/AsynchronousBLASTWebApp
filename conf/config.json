@@ -1,0 +1,6 @@
+{
+    "SECRET_KEY": "put your secret key here",
+    "ALLOWED_HOSTS": ["localhost"],
+    "CORS_ORIGIN_WHITELIST": ["http://localhost:8000"],
+    "DEBUG": true
+}
