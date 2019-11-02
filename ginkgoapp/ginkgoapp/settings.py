@@ -28,17 +28,8 @@ with open(os.path.join(BASE_DIR, '../conf/config.json')) as file:
     ALLOWED_HOSTS = config["ALLOWED_HOSTS"]
     CORS_ORIGIN_WHITELIST = config["CORS_ORIGIN_WHITELIST"]
 
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
 # CORS for React requests
 CORS_ORIGIN_ALLOW_ALL=True
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8000',
-]
 
 # Application definition
 

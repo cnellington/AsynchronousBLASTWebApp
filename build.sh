@@ -1,4 +1,4 @@
-service supervisor stop
+pkill supervisord
 python ginkgoapp/manage.py makemigrations
 python ginkgoapp/manage.py migrate
 npm run build
