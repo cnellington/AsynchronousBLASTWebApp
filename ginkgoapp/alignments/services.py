@@ -11,7 +11,7 @@ def get_alignment(sequence):
 def process_alignment(alignment):
     results = get_alignment(alignment.sequence)
     if results:
-        result_index = random.randint(len(results))
+        result_index = random.randint(0, len(results))
         protein = results[result_index]
         alignment.result_name = protein.description
         alignment.result_start = protein.sequence.lower().find(alignment.sequence.lower())
