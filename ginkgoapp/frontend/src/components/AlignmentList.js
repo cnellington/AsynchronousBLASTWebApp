@@ -4,8 +4,10 @@ class AlignmentList extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { alignments: [],
-					   display: [] };
+		this.state = {
+			alignments: [],
+			display: []
+		};
 	}
 
 	update() {
@@ -14,9 +16,8 @@ class AlignmentList extends Component {
 	 }
 
 	componentDidMount() {
+		this.update();
 		this.interval = setInterval(() => this.update(), 1000);
-		this.loadAlignments();
-	    this.updateAlignments();
 	}
 
 	componentWillUnmount() {
@@ -24,8 +25,16 @@ class AlignmentList extends Component {
 	}
 
 	loadAlignments() {
-		let connection = "http://localhost:8000/api/alignments/";
-		fetch(connection, {method: 'get'})
+		let connection = "http://"+this.props.backend+":8000/api/alignments/id-specific/";
+		let payload = {"ids": localStorage.getItem(this.props.save_loc)};
+		fetch(connection,
+			{
+				method: 'post',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(payload)
+			})
 			.then(res => res.json())
 			.then(
 				(json) => {
@@ -40,13 +49,23 @@ class AlignmentList extends Component {
 		let newAlignments = [];
 		for(let i = 0; i < this.state.alignments.length; i++) {
 			let result = this.state.alignments[i];
-			newAlignments.push(
-				<div key={i}>
-					<br></br>
-					<p>query: {result["sequence"]}</p>
-					<p>found in <strong>{result["result_name"]}</strong> at bp {result["result_start"]} </p>
-				</div>
-			);
+			if (result["result_start"] === -1) {
+				newAlignments.push(
+					<div key={i}>
+						<br></br>
+						<p>query: {result["sequence"]}</p>
+						<p>found <strong>no match</strong></p>
+					</div>
+				);
+			} else {
+				newAlignments.push(
+					<div key={i}>
+						<br></br>
+						<p>query: {result["sequence"]}</p>
+						<p>found in <strong>{result["result_name"]}</strong> at base {result["result_start"]} </p>
+					</div>
+				);
+			}
 		}
 		this.setState({seconds: this.state.seconds, alignments: this.state.alignments, display: newAlignments});
 	};
@@ -54,7 +73,7 @@ class AlignmentList extends Component {
 	render() {
 		return (
 			<div>
-				<p>Alignment Results:</p>
+				<h3>Alignment Results:</h3>
 				{this.state.display}
 			</div>
 		);

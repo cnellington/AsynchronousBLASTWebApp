@@ -2,9 +2,6 @@ from django.db import models
 from django_q.tasks import async_task
 from django.core.validators import FileExtensionValidator
 
-from ginkgoapp.settings import STATIC_ROOT
-
-
 status_choices = (("New", "New"), ("Processed", "Processed"))
 upload_dir = "alignments/static/files/"
 
@@ -28,7 +25,6 @@ class Protein(models.Model):
 
 # Search result
 class Alignment(models.Model):
-    # user = ??  TODO: store IP address or session
     sequence = models.TextField()
     result_name = models.CharField(max_length=16, default="No Match")
     result_start = models.IntegerField(default=-1)
@@ -37,6 +33,9 @@ class Alignment(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         if self.status != 'Processed':
             async_task('alignments.services.process_alignment', self)
-        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.result_name}, {self.modified}"
