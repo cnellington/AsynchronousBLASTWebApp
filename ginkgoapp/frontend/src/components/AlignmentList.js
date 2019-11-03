@@ -4,8 +4,10 @@ class AlignmentList extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { alignments: [],
-					   display: [] };
+		this.state = {
+			alignments: [],
+			display: []
+		};
 	}
 
 	update() {
@@ -24,8 +26,16 @@ class AlignmentList extends Component {
 	}
 
 	loadAlignments() {
-		let connection = "http://localhost:8000/api/alignments/";
-		fetch(connection, {method: 'get'})
+		let connection = "http://"+this.props.backend+":8000/api/alignments/id-specific/";
+		let payload = {"ids": localStorage.getItem(this.props.save_loc)};
+		fetch(connection,
+			{
+				method: 'post',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(payload)
+			})
 			.then(res => res.json())
 			.then(
 				(json) => {
@@ -40,6 +50,7 @@ class AlignmentList extends Component {
 		let newAlignments = [];
 		for(let i = 0; i < this.state.alignments.length; i++) {
 			let result = this.state.alignments[i];
+			console.log(result);
 			newAlignments.push(
 				<div key={i}>
 					<br></br>

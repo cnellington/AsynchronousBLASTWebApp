@@ -5,4 +5,4 @@ from alignments.models import Alignment
 class AlignmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Alignment
-        fields = '__all__'
+        fields = ('id', 'sequence', 'result_name', 'result_start', 'status')
