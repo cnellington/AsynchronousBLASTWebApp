@@ -53,12 +53,10 @@ class MainContainer extends Component {
 
 	render() {
 		return (
-			<div>
-				<div>
-					<SearchBar title={"Enter DNA Query: "} value={this.state.seq} onChange={this.updateSeq}/>
-					<Button color="primary" onClick={this.submit} value="Submit"/>
-					<Button color="secondary" onClick={this.resetUser} value="Clear"/>
-				</div>
+			<div className={"text-center"}>
+				<SearchBar title={"Enter DNA Query: "} value={this.state.seq} onChange={this.updateSeq}/>
+				<Button color="primary" onClick={this.submit} value="Submit"/>
+				<Button color="secondary" onClick={this.resetUser} value="Clear"/>
 				<AlignmentList save_loc={this.save_loc} backend={this.backend}/>
 			</div>
 		);

@@ -62,7 +62,7 @@ class AlignmentList extends Component {
 					<div key={i}>
 						<br></br>
 						<p>query: {result["sequence"]}</p>
-						<p>found in <strong>{result["result_name"]}</strong> at bp {result["result_start"]} </p>
+						<p>found in <strong>{result["result_name"]}</strong> at base {result["result_start"]} </p>
 					</div>
 				);
 			}
@@ -73,7 +73,7 @@ class AlignmentList extends Component {
 	render() {
 		return (
 			<div>
-				<p>Alignment Results:</p>
+				<h3>Alignment Results:</h3>
 				{this.state.display}
 			</div>
 		);

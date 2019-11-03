@@ -4,8 +4,8 @@ import React, {Component} from 'react';
 class SearchBar extends Component {
 	render() {
 		return (
-			<div className="center-text">
-				<p>{this.props.title}</p>
+			<div>
+				<h3>{this.props.title}</h3>
 				<TextField
 					id={this.props.id}
 					label={this.props.label}
