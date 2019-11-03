@@ -16,9 +16,8 @@ class AlignmentList extends Component {
 	 }
 
 	componentDidMount() {
+		this.update();
 		this.interval = setInterval(() => this.update(), 1000);
-		this.loadAlignments();
-	    this.updateAlignments();
 	}
 
 	componentWillUnmount() {
@@ -50,14 +49,23 @@ class AlignmentList extends Component {
 		let newAlignments = [];
 		for(let i = 0; i < this.state.alignments.length; i++) {
 			let result = this.state.alignments[i];
-			console.log(result);
-			newAlignments.push(
-				<div key={i}>
-					<br></br>
-					<p>query: {result["sequence"]}</p>
-					<p>found in <strong>{result["result_name"]}</strong> at bp {result["result_start"]} </p>
-				</div>
-			);
+			if (result["result_start"] === -1) {
+				newAlignments.push(
+					<div key={i}>
+						<br></br>
+						<p>query: {result["sequence"]}</p>
+						<p>found <strong>no match</strong></p>
+					</div>
+				);
+			} else {
+				newAlignments.push(
+					<div key={i}>
+						<br></br>
+						<p>query: {result["sequence"]}</p>
+						<p>found in <strong>{result["result_name"]}</strong> at bp {result["result_start"]} </p>
+					</div>
+				);
+			}
 		}
 		this.setState({seconds: this.state.seconds, alignments: this.state.alignments, display: newAlignments});
 	};

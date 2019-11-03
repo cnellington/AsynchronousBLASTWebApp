@@ -36,3 +36,6 @@ class Alignment(models.Model):
         super().save(*args, **kwargs)
         if self.status != 'Processed':
             async_task('alignments.services.process_alignment', self)
+
+    def __str__(self):
+        return f"{self.result_name}, {self.modified}"

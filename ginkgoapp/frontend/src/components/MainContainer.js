@@ -14,7 +14,7 @@ class MainContainer extends Component {
 		this.save_loc = "ginkgoSearchIds";
 		this.backend = "localhost";
 		if (localStorage.getItem(this.save_loc) === null) {
-			localStorage.setItem(this.save_loc, JSON.stringify([]))
+			localStorage.setItem(this.save_loc, JSON.stringify([]));
 		}
 	}
 
@@ -41,18 +41,24 @@ class MainContainer extends Component {
 						let searchIds = JSON.parse(localStorage.getItem(this.save_loc));
 						searchIds.push(json["id"]);
 						localStorage.setItem(this.save_loc, JSON.stringify(searchIds));
-						console.log(localStorage.getItem(this.save_loc));
 					}
 				}
 			);
 		this.setState({seq: ""});
 	};
 
+	resetUser = (event) => {
+		localStorage.setItem(this.save_loc, JSON.stringify([]));
+	}
+
 	render() {
 		return (
 			<div>
-				<SearchBar title={"DNA Alignment: "} value={this.state.seq} onChange={this.updateSeq}/>
-				<Button color="primary" onClick={this.submit} value="Submit"/>
+				<div>
+					<SearchBar title={"Enter DNA Query: "} value={this.state.seq} onChange={this.updateSeq}/>
+					<Button color="primary" onClick={this.submit} value="Submit"/>
+					<Button color="secondary" onClick={this.resetUser} value="Clear"/>
+				</div>
 				<AlignmentList save_loc={this.save_loc} backend={this.backend}/>
 			</div>
 		);
