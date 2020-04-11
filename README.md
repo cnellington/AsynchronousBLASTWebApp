@@ -1,4 +1,4 @@
-# Ginkgo Backend Challenge
+# Asynchronous BLAST Web App
 #### Description
 A simple React-Django webapp to query DNA sequences against a databank of .fasta files.
 #### Features
